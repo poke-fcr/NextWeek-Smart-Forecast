@@ -1,0 +1,86 @@
+<div>
+    <h4>
+        Location Detected: {{location}}
+    </h4>
+    <h6>OR</h6>
+    <div class="f-justify-between">
+        <div class="col-8 col-md-4 col-lg-4">
+            <select class="form-select" (change)="manualCity($event)">
+                <option [value]="null">Select manually</option>
+                <option *ngFor="let c of cities" [value]="c.city">{{c.city}}</option>
+            </select>
+        </div>
+        <div style="align-self: end;">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="exampleCheckbox" [(ngModel)]="showDetails">
+                <label class="form-check-label" for="exampleCheckbox">Show details
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-row row" *ngIf="weatherData.length">
+        @for (day of refinedWeatherData; track $index) {
+        <div class="col-12 col-md-4 col-lg-4 my-1 g-2">
+            <div class="card" [ngClass]="{'whether-90': day.score >= 85,
+            'whether-85': day.score <= 85,
+            'whether-60': day.score <= 60,
+            'whether-40': day.score <=40,
+            'whether-30': day.score <=30,
+         }">
+                <div class="card-body">
+                    <div class="f-justify-between">
+                        <h5 class="card-title">{{ day.valid_date | date: 'EEEE' }}</h5>
+                        <div class="f-justify-between">
+                            <div class="pill">Rank: {{day.rank}}</div>
+                            <div class="pill ms-2">Score: {{day.score | number: '1.1-2'}}</div>
+                        </div>
+                    </div>
+                    @if(showDetails){
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td><i class="bi bi-calendar-event"></i> <strong>Date:</strong></td>
+                                    <td>{{ day.valid_date | date: 'MMM d, y' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="bi bi-thermometer-half"></i> <strong>Temperature:</strong></td>
+                                    <td>{{ day.temp | number:'1.1-1' }}°C</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="bi bi-moisture"></i> <strong>Humidity:</strong></td>
+                                    <td>{{ day.rh | number:'1.0-0' }}%</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="bi bi-clouds"></i> <strong>Cloud Cover:</strong></td>
+                                    <td>{{ day.clouds | number:'1.0-0' }}%</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="bi bi-eye"></i> <strong>Visibility:</strong></td>
+                                    <td>{{ day.vis >= 10 ? 100 : (day.vis * 10) | number:'1.0-0' }}%</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="bi bi-cloud-drizzle"></i> <strong>Rain Probability:</strong></td>
+                                    <td>{{ day.pop * 100 | number:'1.0-0' }}%</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="bi bi-sun"></i> <strong>UV Index:</strong></td>
+                                    <td>
+                                        <span>
+                                            {{ day.uv < 5 ? 'Good' : day.uv < 10 ? 'Moderate' : 'Bad' }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="bi bi-wind"></i> <strong>Wind Speed:</strong></td>
+                                    <td>{{ day.wind_spd | number:'1.1-1' }} m/s</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    }
+                </div>
+            </div>
+        </div>
+        }
+    </div>
