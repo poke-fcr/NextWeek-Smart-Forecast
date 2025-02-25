@@ -18,7 +18,10 @@
             </div>
         </div>
     </div>
-
+    @if(locationStatus == 'loading'){
+        <div class="my-5">Fetching location</div>
+    }
+    @if(forecastStatus == 'loaded'){
     <div class="card-row row" *ngIf="weatherData.length">
         @for (day of refinedWeatherData; track $index) {
         <div class="col-12 col-md-4 col-lg-4 my-1 g-2">
@@ -37,50 +40,52 @@
                         </div>
                     </div>
                     @if(showDetails){
-                        <table class="table table-borderless">
-                            <tbody>
-                                <tr>
-                                    <td><i class="bi bi-calendar-event"></i> <strong>Date:</strong></td>
-                                    <td>{{ day.valid_date | date: 'MMM d, y' }}</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="bi bi-thermometer-half"></i> <strong>Temperature:</strong></td>
-                                    <td>{{ day.temp | number:'1.1-1' }}°C</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="bi bi-moisture"></i> <strong>Humidity:</strong></td>
-                                    <td>{{ day.rh | number:'1.0-0' }}%</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="bi bi-clouds"></i> <strong>Cloud Cover:</strong></td>
-                                    <td>{{ day.clouds | number:'1.0-0' }}%</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="bi bi-eye"></i> <strong>Visibility:</strong></td>
-                                    <td>{{ day.vis >= 10 ? 100 : (day.vis * 10) | number:'1.0-0' }}%</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="bi bi-cloud-drizzle"></i> <strong>Rain Probability:</strong></td>
-                                    <td>{{ day.pop * 100 | number:'1.0-0' }}%</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="bi bi-sun"></i> <strong>UV Index:</strong></td>
-                                    <td>
-                                        <span>
-                                            {{ day.uv < 5 ? 'Good' : day.uv < 10 ? 'Moderate' : 'Bad' }}
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><i class="bi bi-wind"></i> <strong>Wind Speed:</strong></td>
-                                    <td>{{ day.wind_spd | number:'1.1-1' }} m/s</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td><i class="bi bi-calendar-event"></i> <strong>Date:</strong></td>
+                                <td>{{ day.valid_date | date: 'MMM d, y' }}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="bi bi-thermometer-half"></i> <strong>Temperature:</strong></td>
+                                <td>{{ day.temp | number:'1.1-1' }}°C</td>
+                            </tr>
+                            <tr>
+                                <td><i class="bi bi-moisture"></i> <strong>Humidity:</strong></td>
+                                <td>{{ day.rh | number:'1.0-0' }}%</td>
+                            </tr>
+                            <tr>
+                                <td><i class="bi bi-clouds"></i> <strong>Cloud Cover:</strong></td>
+                                <td>{{ day.clouds | number:'1.0-0' }}%</td>
+                            </tr>
+                            <tr>
+                                <td><i class="bi bi-eye"></i> <strong>Visibility:</strong></td>
+                                <td>{{ day.vis >= 10 ? 100 : (day.vis * 10) | number:'1.0-0' }}%</td>
+                            </tr>
+                            <tr>
+                                <td><i class="bi bi-cloud-drizzle"></i> <strong>Rain Probability:</strong></td>
+                                <td>{{ day.pop | number:'1.0-0' }}%</td>
+                            </tr>
+                            <tr>
+                                <td><i class="bi bi-sun"></i> <strong>UV Index:</strong></td>
+                                <td>
+                                    <span>
+                                        {{ day.uv < 5 ? 'Good' : day.uv < 10 ? 'Moderate' : 'Bad' }} </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><i class="bi bi-wind"></i> <strong>Wind Speed:</strong></td>
+                                <td>{{ day.wind_spd | number:'1.1-1' }} m/s</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                     }
                 </div>
             </div>
         </div>
         }
     </div>
+    } @else if(forecastStatus == 'loading') {
+    <div class="my-5">Loading</div>
+    }

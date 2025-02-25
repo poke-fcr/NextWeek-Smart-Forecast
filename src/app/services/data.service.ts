@@ -5,7 +5,7 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root'
 })
 export class DataService {
-  useLocal: boolean = true
+  useLocal: boolean = false
   constructor(private http: HttpClient) { }
 
   getForecast(lat: number, lon: number) {
